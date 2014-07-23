@@ -1,87 +1,76 @@
 from __future__ import division
 from pyteomics import mgf
-
-#import copy
+from lib.IONcalc import IONmass,PRmass
+from lib.IONcfg import CFGparser
 import pandas as pd
 import re
+import time
 
+stTIME = time.clock()
 
-inputfile = r'samples/C1.mgf'
-outmgf = 'samples/C1-filtered-AorB.mgf'
+inputfile = r'samples/Ox_Arp-Eluate_1.mgf'
+outmgf = 'samples/Ox_Arp-Eluate_1-key38-0.01.mgf'
 
 outHead = r'samples/C1-Head.csv'
 outSpec = r'samples/C1-Spec-frag.csv'
 
-rTH = 0.01
-biotin_tag = 'ARP'
-
+rTH = 0.01  # 0.01 = 1%
 delta = 0.8
-a = 227.0854
-b = 332.1387
-c = 299.1127
-d = 259.1223	
-nl = 331.1314
 
-#fragList = [a,b,c,d,nl]
-#FRAG_List = [a,b,c,d]
-NL_List = [nl]
-FRAG_List = [a,b]
+ScoreTH1 = 37.5
+ScoreTH2 = 150.0
+#biotin_tag = 'ARP'
+
+#delta = 0.8
+#a = 227.0854
+#b = 332.1387
+#c = 299.1127
+#d = 259.1223	
+#nl = 331.1314
+#
+##fragList = [a,b,c,d,nl]
+##FRAG_List = [a,b,c,d]
+#NL_List = [nl]
+#FRAG_List = [a,b]
+
+cfgNAME = 'ionCFG.csv'
+cfg = CFGparser(cfgNAME)
+
+#TYPE = 'F'
+Score1 = 10
+cfg_df_q = cfg.CFGquery(ionScore=Score1)
+print cfg_df_q
+
 ##############Settings finished ################
 Head_pd = pd.DataFrame()
 Spec_pd = pd.DataFrame()
 
 with mgf.read(inputfile) as spectra:
-    #header = mgf.read_header(inputfile)
-    #reader = mgf.read('samples/C1.mgf')
     for reader in spectra:
-        #reader_info = {}
-        #reader_info = dict(reader)
-        #auxiliary.print_tree(reader)
-        #print reader['params']
         
         # #reader['params'] is a dict# #
         tmp_header = reader['params']
         reader_info = {'params':reader['params'],
                         'm/z array': reader['m/z array'],
                         'intensity array': reader['intensity array']}
-        # # tmp_header['pepmass'] & tmp_header['charge'] are List, read data out# #
+
         pepinfo =  tmp_header['pepmass']
         #print pepinfo
         pepMZ = pepinfo[0]
         pepI = pepinfo[1]
         CHGinfo =  tmp_header['charge']
-        CHG = CHGinfo[0]
+        prCHG = CHGinfo[0]
 
         # calculation of peptide mass
-        if CHG == 2 or CHG == r'2+':
-            pepMZcalc = (pepMZ * 2) - (2 * 1.00783)
-        elif CHG == 3 or CHG == r'3+':
-            pepMZcalc = (pepMZ * 3) - (3 * 1.00783)
-        elif CHG == 4 or CHG == r'4+':
-            pepMZcalc = (pepMZ * 4) - (4 * 1.00783)
-        elif CHG == 5 or CHG == r'5+':
-            pepMZcalc = (pepMZ * 5) - (5 * 1.00783)
-        else:
-            pepMZcalc = pepMZ - 1.00783       
-                        
-        #print pepMZ, pepI
-        # # format the dict to fit to Pandas DataFrame# #
-        #tmp_header.pop('pepmass')
-        #tmp_header['pepMZ'] = pepMZ 
-        #tmp_header['pepI'] = pepI
-        #tmp_header.pop('charge')
-        #tmp_header['CHG'] = CHG
-        #tmp_header['pepMZcalc'] = pepMZcalc
-               
-        #print tmp_header['title']
+        pepMZcalc = PRmass(pepMZ, prCHG)
+
         x = tmp_header['title']
         y = x.strip(" \" ")
         ScanID = re.compile(r'=')
         ID = ScanID.split(y)
         ScanID = ID[-1]
         #ScanID = 'ScanID ' + str(ScanID)
-        #tmp_header.pop('title')
-        # print reader['intensity array']
+
         # get Max intensity #
         i_max = max(reader['intensity array'])
         
@@ -98,42 +87,56 @@ with mgf.read(inputfile) as spectra:
         
         tmpSpec_pd = pd.DataFrame(tmp_spec,columns=['ScanID','mz', 'i'])
         
-        temp_FRAG_pd = pd.DataFrame()
-        temp_NL_pd = pd.DataFrame()
+        #temp_FRAG_pd = pd.DataFrame()
+        #temp_NL_pd = pd.DataFrame()
+        temp_ion_pd = pd.DataFrame()
         temp_found_pd = pd.DataFrame()
+        tmp_found_List =[]
         # # intensity filter# #
         absTH = rTH * i_max
+        #absTH = float(absTH)
         #print 'absTH',absTH
-        tmpSpec_pd_TH = tmpSpec_pd[tmpSpec_pd.i >= absTH]
+        
+        tmpSpec_pd_TH = tmpSpec_pd[tmpSpec_pd['i'] >= absTH]
+        #print tmpSpec_pd_TH, absTH
         #tmpSpec_pd_TH.tail(3)
         
-        # # fragment hunter # #
-        for FRAG in FRAG_List:
-            frag_L = FRAG-delta
-            frag_H = FRAG+delta
-            try:
-                temp_query = str(frag_L) + r'<= mz <=' + str(frag_H)
-                temp_query_info = tmpSpec_pd_TH.query(temp_query)
-                #print ScanID,'',temp_query_info
-                if temp_query_info.index.tolist() >0:
-                    temp_FRAG_pd = temp_FRAG_pd.append(temp_query_info)
-                else:
-                    pass
-            except:
-                break
+        # # ion hunter # #
+        #print '#',ScanID, '---->'
+        totScore = 0
+        for ion in cfg_df_q['ionName']:
+            
+            ion_df = cfg_df_q[cfg_df_q['ionName']==ion]
+            
+            MASS = ion_df.iloc[0]['ionMASS']
+            MASStype = ion_df.iloc[0]['ionTYPE']
+            ionCHG = ion_df.iloc[0]['ionCHG']
+            ionScore = ion_df.iloc[0]['ionScore']
+            
+            ionMZ = IONmass (MASS, MASStype, \
+                            pepMZ, prCHG, ionCHG)
+                            
+            ion_L = ionMZ-delta
+            ion_H = ionMZ+delta
+            
+
+            temp_query = str(ion_L) + r'<= mz <=' + str(ion_H)
+            temp_query_info = tmpSpec_pd_TH.query(temp_query)
+            #print ScanID,'',temp_query_info
+            found_mz_list =temp_query_info.iloc[:]['mz'].tolist()
+            
+            if len(found_mz_list) >0:
+                #temp_ion_pd = temp_ion_pd.append(temp_query_info)
+                tmp_ion_info = [ion,MASS,found_mz_list]
+                tmp_found_List.append(tmp_ion_info)
+                totScore = totScore + ionScore
+                #print tmp_ion_info
+            else:
+                #print 'ion',ion,'not found!'
+                pass
+
         
-        #for NL in NL_List:
-        #    NL_L = (pepMZcalc-nl)/CHG-delta
-        #    NL_H = (pepMZcalc-nl)/CHG+delta
-        #    
-        #    temp_query = str(NL_L) + r'<= mz <=' + str(NL_H)
-        #    temp_query_NL = tmpSpec_pd_TH.query(temp_query)
-        #    count_NL = temp_query_NL.index.tolist()
-        #    if len(count_NL) >0:
-        #        temp_NL_pd = temp_NL_pd.append(temp_query_NL)
-        #        print '<--NL  FOUND --->',ScanID
-        #        print temp_NL_pd
-        temp_found_pd = temp_found_pd.append(temp_FRAG_pd)
+        #temp_found_pd = temp_found_pd.append(temp_ion_pd)
             #temp_found_pd = temp_found_pd.append(temp_NL_pd)
         
         
@@ -143,18 +146,17 @@ with mgf.read(inputfile) as spectra:
         #print tmpHead_pd
         #print tmpSpec_pd.head(5) 
         #spectra = mgf.read()
-        count = temp_found_pd['mz'].tolist()
-        if len(count) >0:
-            print '#',len(count),'=',ScanID,'=',count
-        if len(count) >0:
-            #print temp_found_pd
-            #print '++++++++++'
-            #print reader['params']
-            #print reader_info['params']
-            mgf.write(reader_info, output= outmgf,header='')
+        #count = temp_ion_pd['mz'].tolist()
+        
+        #if len(tmp_found_List) >0:
+        
+        if ScoreTH1<= float(totScore) <=ScoreTH2:
+            mgf.write(reader_info, output= outmgf,header='') 
+            print '#',ScanID, '=GET Score==>',totScore 
         else:
             #print 'No Frag/NL found',ScanID
             pass
+        temp_ion_pd = pd.DataFrame()
         
         
                                                                     
@@ -168,6 +170,9 @@ print 'finished'
 #print 'finished'
 
 print 'saved'
+
+edTIME = time.clock() - stTIME
+print edTIME
 
 import winsound
 winsound.Beep(500, 800)
