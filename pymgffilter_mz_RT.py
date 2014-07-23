@@ -1,3 +1,4 @@
+# First MZ then RT need 25% time longer than First RT then MZ #
 from __future__ import division
 from pyteomics import mgf
 from lib.IONcalc import IONmass,PRmass
@@ -9,7 +10,7 @@ import time
 stTIME = time.clock()
 
 inputfile = r'samples/Ox_Arp-Eluate_1.mgf'
-outmgf = 'samples/Ox_Arp-Eluate_1-key38-0.01-RT10_30-RTMZ.mgf'
+outmgf = 'samples/Ox_Arp-Eluate_1-key38-0.01-RT10_30-MZRT.mgf'
 cfgNAME = 'ionCFG10min.csv'
 
 #outHead = r'samples/C1-Head.csv'
@@ -122,30 +123,30 @@ with mgf.read(inputfile) as spectra:
             #if MASStype == 'F':
             #    ionMZ = float(MASS)
             #if MASStype == 'N':
-            if RT1 <= RT <= RT2:
-                ionMZ = IONmass (MASS, MASStype, \
-                                pepMZ, prCHG, ionCHG)
-                            
-                ion_L = ionMZ-delta
-                ion_H = ionMZ+delta
-                
-    
-                temp_query = str(ion_L) + r'<= mz <=' + str(ion_H)
-                temp_query_info = tmpSpec_pd_TH.query(temp_query)
-                #print ScanID,'',temp_query_info
-                found_mz_list =temp_query_info.iloc[:]['mz'].tolist()
-                
-                
             
-                if len(found_mz_list) >0:
-                    #temp_ion_pd = temp_ion_pd.append(temp_query_info)
-                    tmp_ion_info = [ion,MASS,found_mz_list]
-                    tmp_found_List.append(tmp_ion_info)
-                    totScore = totScore + ionScore
-                    #print tmp_ion_info
-                else:
-                    #print 'ion',ion,'not found!'
-                    pass
+            ionMZ = IONmass (MASS, MASStype, \
+                            pepMZ, prCHG, ionCHG)
+                        
+            ion_L = ionMZ-delta
+            ion_H = ionMZ+delta
+            
+
+            temp_query = str(ion_L) + r'<= mz <=' + str(ion_H)
+            temp_query_info = tmpSpec_pd_TH.query(temp_query)
+            #print ScanID,'',temp_query_info
+            found_mz_list =temp_query_info.iloc[:]['mz'].tolist()
+            
+            
+        
+            if len(found_mz_list) >0 and RT1 <= RT <= RT2:
+                #temp_ion_pd = temp_ion_pd.append(temp_query_info)
+                tmp_ion_info = [ion,MASS,found_mz_list]
+                tmp_found_List.append(tmp_ion_info)
+                totScore = totScore + ionScore
+                #print tmp_ion_info
+            else:
+                #print 'ion',ion,'not found!'
+                pass
             
         if ScoreTH1<= float(totScore) <=ScoreTH2:
             mgf.write(reader_info, output= outmgf,header='') 

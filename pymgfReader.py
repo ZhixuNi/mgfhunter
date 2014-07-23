@@ -3,10 +3,10 @@ import pandas as pd
 import re
 
 
-inputfile = 'samples/filter_1.mgf'
+inputfile = 'samples/Ox_Arp-Eluate_1-key38-0.01-RT10_30.mgf'
 
-outHead = 'samples/filter_1-Head.csv'
-outSpec = 'samples/filter_1-Spec.csv'
+outHead = 'samples/Ox_Arp-Eluate_1-key38-0.01-RT10_30-Head.csv'
+outSpec = 'samples/Ox_Arp-Eluate_1-key38-0.01-RT10_30-Spec.csv'
 Head_pd = pd.DataFrame()
 Spec_pd = pd.DataFrame()
 
