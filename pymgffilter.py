@@ -8,18 +8,18 @@ import time
 
 stTIME = time.clock()
 
-inputfile = r'samples/Ox_Arp-Eluate_1.mgf'
-outmgf = 'samples/Ox_Arp-Eluate_1-key38-0.01-RT10_30-RTMZ.mgf'
-cfgNAME = 'ionCFG10min.csv'
+inputfile = r'samples/PC-IM-1st.mgf'
+outmgf = 'samples/PC-IM-1st-filtered-3key-rTH0.1.mgf'
+cfgNAME = 'ionCFG_PL.csv'
 
 #outHead = r'samples/C1-Head.csv'
 #outSpec = r'samples/C1-Spec-frag.csv'
 
-rTH = 0.01  # 0.01 = 1%
+rTH = 0.1  # 0.01 = 1%
 delta = 0.8
 
-ScoreTH1 = 37.5
-ScoreTH2 = 150.0
+ScoreTH1 = 113.5
+ScoreTH2 = 300.0
 #biotin_tag = 'ARP'
 
 #delta = 0.8
@@ -59,8 +59,11 @@ with mgf.read(inputfile) as spectra:
         #print pepinfo
         pepMZ = pepinfo[0]
         pepI = pepinfo[1]
-        CHGinfo =  tmp_header['charge']
-        prCHG = CHGinfo[0]
+        try:
+            CHGinfo =  tmp_header['charge']
+            prCHG = CHGinfo[0]
+        except KeyError:
+            prCHG = 1
         RT = float(tmp_header['rtinseconds'])
 
         # calculation of peptide mass
@@ -156,16 +159,7 @@ with mgf.read(inputfile) as spectra:
         temp_ion_pd = pd.DataFrame()
                 
 
-
-                                                                    
-
-#print Head_pd.head(10)
-#Head_pd.to_csv(outHead)
 print 'finished'
-#print Spec_pd.head(10)
-#print Spec_pd.tail(10)
-#Spec_pd.to_csv(outSpec)
-#print 'finished'
 
 print 'saved'
 

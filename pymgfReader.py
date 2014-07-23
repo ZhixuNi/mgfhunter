@@ -2,11 +2,11 @@ from pyteomics import mgf
 import pandas as pd
 import re
 
+fileNAME = 'PC-IM-1st-filtered-3key-rTH0.1'
+inputfile = 'samples/'+fileNAME+'.mgf'
 
-inputfile = 'samples/Ox_Arp-Eluate_1-key38-0.01-RT10_30.mgf'
-
-outHead = 'samples/Ox_Arp-Eluate_1-key38-0.01-RT10_30-Head.csv'
-outSpec = 'samples/Ox_Arp-Eluate_1-key38-0.01-RT10_30-Spec.csv'
+outHead = 'samples/'+fileNAME+'-Head.csv'
+outSpec = 'samples/'+fileNAME+'-Spec.csv'
 Head_pd = pd.DataFrame()
 Spec_pd = pd.DataFrame()
 
@@ -24,8 +24,13 @@ with mgf.read(inputfile) as spectra:
         #print pepinfo
         pepMZ = pepinfo[0]
         pepI = pepinfo[1]
-        CHGinfo =  tmp_header['charge']
-        CHG = CHGinfo[0]
+        try:
+            CHGinfo =  tmp_header['charge']
+            #print reader['params']
+            CHG = CHGinfo[0]
+        except KeyError:
+            CHG = 'X'
+            tmp_header['charge'] = CHG
         
         #print pepMZ, pepI
         # # format the dict to fit to Pandas DataFrame# #
