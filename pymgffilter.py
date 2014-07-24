@@ -8,9 +8,9 @@ import time
 
 stTIME = time.clock()
 
-inputfile = r'samples/PC-IM-1st.mgf'
-outmgf = 'samples/PC-IM-1st-filtered-3key-rTH0.1.mgf'
-cfgNAME = 'ionCFG_PL.csv'
+inputfile = 'samples/Ox_Arp-Eluate_1.mgf'
+outmgf = 'samples/Ox_Arp-Eluate_1-Score76-rTH0.1-2.mgf'
+cfgNAME = 'ionCFG10min.csv'
 
 #outHead = r'samples/C1-Head.csv'
 #outSpec = r'samples/C1-Spec-frag.csv'
@@ -18,8 +18,8 @@ cfgNAME = 'ionCFG_PL.csv'
 rTH = 0.1  # 0.01 = 1%
 delta = 0.8
 
-ScoreTH1 = 113.5
-ScoreTH2 = 300.0
+ScoreTH1 = 75.5
+ScoreTH2 = 150.0
 #biotin_tag = 'ARP'
 
 #delta = 0.8

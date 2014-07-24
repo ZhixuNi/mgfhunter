@@ -78,3 +78,11 @@ class CFGparser:
                 self.cfg_df_query = self.cfg_df.query(temp_query)
                 
         return self.cfg_df_query
+        
+    def GFGionNAME (self):
+        
+        self.cfg_df = pd.read_csv(self.csvNAME, sep=',', header=0, index_col=None)
+        
+        ionNames = self.cfg_df['ionName'].tolist()
+        
+        return ionNames
