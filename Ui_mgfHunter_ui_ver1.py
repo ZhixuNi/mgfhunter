@@ -10,7 +10,9 @@
 from PySide import QtCore, QtGui
 from lib.ConfigReader import ConfigParser 
 from lib.IONcfg import CFGparser
+from lib.IO_mgf import SCANtoCSV
 from mgfHunterCore import Hunter
+
 
 import os
 import codecs
@@ -330,9 +332,15 @@ class Ui_mgfHunterGUI(object):
         # #----------------Merge NL-settings Tab trigger-END-----------------# 
         
         # #----------------Merge Core Tab trigger------------------#
-        QtCore.QObject.connect(self.Filter_in_PB, QtCore.SIGNAL(_fromUtf8("clicked()")), self.inFile)
-        QtCore.QObject.connect(self.Filter_out_PB, QtCore.SIGNAL(_fromUtf8("clicked()")), self.outFile)
-        QtCore.QObject.connect(self.Filter_run_PB, QtCore.SIGNAL(_fromUtf8("clicked()")), self.StartRun)
+        QtCore.QObject.connect(self.Filter_in_PB, QtCore.SIGNAL(_fromUtf8("clicked()")), self.Hunter_inFile)
+        QtCore.QObject.connect(self.Filter_out_PB, QtCore.SIGNAL(_fromUtf8("clicked()")), self.Hunter_outFile)
+        QtCore.QObject.connect(self.Filter_run_PB, QtCore.SIGNAL(_fromUtf8("clicked()")), self.Hunter_run)
+        # #----------------Merge Core Tab trigger-END-----------------#
+        
+        # #----------------Merge Core Tab trigger------------------#
+        QtCore.QObject.connect(self.extractor_in_PB, QtCore.SIGNAL(_fromUtf8("clicked()")), self.Extractor_inFile)
+        QtCore.QObject.connect(self.extractor_out_PB, QtCore.SIGNAL(_fromUtf8("clicked()")), self.Extractor_outFile)
+        QtCore.QObject.connect(self.extractor_run_PB, QtCore.SIGNAL(_fromUtf8("clicked()")), self.Extractor_run)
         # #----------------Merge Core Tab trigger-END-----------------#
 
     def retranslateUi(self, mgfHunterGUI):
@@ -662,16 +670,16 @@ class Ui_mgfHunterGUI(object):
     
     # # book mark 2 main functions # #
     
-    def inFile(self):
+    def Hunter_inFile(self):
         inPath=QtGui.QFileDialog.getOpenFileName(None,"Open file dialog","/","mgf(*.mgf)")     
         self.Filter_in_txt.setText(inPath[0])
 
     
-    def outFile(self):
+    def Hunter_outFile(self):
         outPath=QtGui.QFileDialog.getSaveFileName(None,"Save file dialog","/","mgf(*.mgf)")
         self.Filter_out_txt.setText(outPath[0])
     
-    def StartRun(self):
+    def Hunter_run(self):
         
         StartTime = time.clock()
       
@@ -692,6 +700,37 @@ class Ui_mgfHunterGUI(object):
         
         self.Filter_run_txt.setText(Finishedinfo)
         print (Finishedinfo) 
+        
+    def Extractor_inFile(self):
+        extractor_inPath=QtGui.QFileDialog.getOpenFileName(None,"Open file dialog","/","mgf(*.mgf)")     
+        self.extractor_in_txt.setText(extractor_inPath[0])
+
+    
+    def Extractor_outFile(self):
+        extractor_outPath=QtGui.QFileDialog.getSaveFileName(None,"Save file dialog","/","csv(*.csv)")
+        self.extractor_out_txt.setText(extractor_outPath[0])    
+    
+    
+    
+    def Extractor_run(self):
+        
+        StartTime = time.clock()
+      
+        inmgf = self.extractor_in_txt.toPlainText()
+        outcsv = self.extractor_out_txt.toPlainText()
+        
+        inmgf = inmgf.encode("utf-8")
+        outcsv = outcsv.encode("utf-8")
+                
+        SCANtoCSV(inmgf,outcsv)
+        
+        Finishedinfo = 'Finifhed ! time:' + str(time.clock() - StartTime)
+        
+        self.extractor_run_txt.setText(Finishedinfo)
+        print (Finishedinfo) 
+        
+        
+        
 
 ####------------------------------------------------------------------------------------------------#
 

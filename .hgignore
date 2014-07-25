@@ -3,3 +3,4 @@ samples/
 pyteomicstest.ipynb
 *.pyc
 *.csv
+*.ipynb
