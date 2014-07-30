@@ -12,7 +12,7 @@ from lib.ConfigReader import ConfigParser
 import pandas as pd
 import re
 import time
-import winsound
+#import winsound
 import csv
 
 
@@ -198,6 +198,6 @@ def Hunter(inmgf,outmgf,cfgNAME=None,cfgSection=None,ionCSVname=None):
     print edTIME
     
     log.close()
-    winsound.Beep(500, 800)
+    #winsound.Beep(500, 800)
     
     #return rTH
