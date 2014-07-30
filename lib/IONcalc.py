@@ -1,8 +1,15 @@
+# -*- coding: utf-8 -*-
+#Copyright 2014 Zhixu Ni, AG Bioanalytik,BBZ,University of Leipzig            #
+#The software is currently  under development and is not ready to be released.#
+#A suitable license will be choosen before the offical release of mgfHunter.  #
+#For more info please contact: zhixu.ni@uni-leipzig.de                        #
+
+
 from __future__ import division
 
 def IONmass (MASS, MASStype, pepMASS=None, prCHG=None, ionCHG=None):
       
-         
+    ionMZ_list =[]     
     if ionCHG == None:
         ionCHG = 1
     else:
@@ -23,6 +30,7 @@ def IONmass (MASS, MASStype, pepMASS=None, prCHG=None, ionCHG=None):
         
         #ionMZ = (MASS + ionCHG * H)/ionCHG
         ionMZ = MASS
+        ionMZ_list = [(ionMZ,ionCHG)]
         
     if MASStype == 'NL' or MASStype == 'N':
         if prCHG == None:
@@ -40,9 +48,14 @@ def IONmass (MASS, MASStype, pepMASS=None, prCHG=None, ionCHG=None):
 
             
         orignalMASS = (pepMASS * prCHG) - prCHG * H
-        ionMZ = ((orignalMASS - MASS) + ionCHG * H)/ionCHG
+        ionCHG_List = range(1,prCHG+1)
+        #print ionCHG_List
+        for ionCHG in ionCHG_List:
+            ionMZ = ((orignalMASS - MASS) + ionCHG * H)/ionCHG
+            ionINFO = (ionMZ,ionCHG)
+            ionMZ_list.append(ionINFO)
     
-    return ionMZ
+    return ionMZ_list
     
 def PRmass (pepMASS, charge):
     

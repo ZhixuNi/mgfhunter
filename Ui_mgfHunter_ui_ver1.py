@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'D:\EricWorkSpace\mgfHunter_ui_ver1.ui'
-#
-# Created: Thu Jul 24 10:30:07 2014
-#      by: PyQt4 UI code generator 4.10
-#
-# WARNING! All changes made in this file will be lost!
+#Copyright 2014 Zhixu Ni, AG Bioanalytik,BBZ,University of Leipzig            #
+#The software is currently  under development and is not ready to be released.#
+#A suitable license will be choosen before the offical release of mgfHunter.  #
+#For more info please contact: zhixu.ni@uni-leipzig.de                        #
 
 from PySide import QtCore, QtGui
 from lib.ConfigReader import ConfigParser 
@@ -277,7 +274,10 @@ class Ui_mgfHunterGUI(object):
 
         # ###default config#
         HunterPATH = os.getcwd()
-        cfgPATH = HunterPATH + r'\config.txt'
+        if os.name.lower() =='nt':
+            cfgPATH = HunterPATH + r'\config.txt'
+        else:
+            cfgPATH = HunterPATH + r'/config.txt'
         print (cfgPATH)
         self.ConName_txt.setText(cfgPATH)
         ConfigName = self.ConName_txt.toPlainText()

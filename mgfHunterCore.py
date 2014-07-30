@@ -1,13 +1,19 @@
 # -*- coding: utf-8 -*-
+#Copyright 2014 Zhixu Ni, AG Bioanalytik,BBZ,University of Leipzig            #
+#The software is currently  under development and is not ready to be released.#
+#A suitable license will be choosen before the offical release of mgfHunter.  #
+#For more info please contact: zhixu.ni@uni-leipzig.de                        #
+
 from __future__ import division
 from pyteomics import mgf
-from lib.IONcalc import IONmass
+from lib.IONcalc import IONmass,PRmass
 from lib.IONcfg import CFGparser
 from lib.ConfigReader import ConfigParser 
 import pandas as pd
 import re
 import time
 import winsound
+import csv
 
 
 def Hunter(inmgf,outmgf,cfgNAME=None,cfgSection=None,ionCSVname=None):
@@ -18,7 +24,15 @@ def Hunter(inmgf,outmgf,cfgNAME=None,cfgSection=None,ionCSVname=None):
     outmgf = outmgf.encode("utf-8")
     config = ConfigParser()
     config.read(cfgNAME)
-
+    
+    outcsv = outmgf + "-log.csv"
+    log = open(outcsv, 'wb')
+    SaveCSV = csv.writer(log)
+    
+    logHEADER = ['ScanID','pepMZ','prCHG','prMASS','RT',\
+                'ion','MASS','MASStype','ionCHG','found_mz_list']
+    SaveCSV.writerow(logHEADER)    
+    
     SECTION = cfgSection
     
     PRrTH = config.get(SECTION,'THMS2')
@@ -71,6 +85,8 @@ def Hunter(inmgf,outmgf,cfgNAME=None,cfgSection=None,ionCSVname=None):
             except KeyError:
                 prCHG = 1
             RT = float(tmp_header['rtinseconds'])
+            
+            prMASS = PRmass(pepMZ,prCHG)
     
             # calculation of peptide mass
             #pepMZcalc = PRmass(pepMZ, prCHG)
@@ -110,7 +126,7 @@ def Hunter(inmgf,outmgf,cfgNAME=None,cfgSection=None,ionCSVname=None):
             
             # # ion hunter # #
 
-            totScore = 0
+            totScore_dict = {}
             for ion in cfg_df_q['ionName']:
                 
                 ion_df = cfg_df_q[cfg_df_q['ionName']==ion]
@@ -128,32 +144,45 @@ def Hunter(inmgf,outmgf,cfgNAME=None,cfgSection=None,ionCSVname=None):
                 #    ionMZ = float(MASS)
                 #if MASStype == 'N':
                 if RT1 <= RT <= RT2:
-                    ionMZ = IONmass (MASS, MASStype, \
+                    ionMZ_list = IONmass (MASS, MASStype, \
                                     pepMZ, prCHG, ionCHG)
-                                
-                    ion_L = ionMZ-delta_L
-                    ion_H = ionMZ+delta_H
+                    for ionMZ_INFO in ionMZ_list: 
+                        ionMZ = ionMZ_INFO[0]
+                        if MASStype == 'NL' or MASStype == 'N':
+                            ionCHG = ionMZ_INFO[1]
+                        else:
+                            pass
+                        ion_L = ionMZ-delta_L
+                        ion_H = ionMZ+delta_H
                     
         
-                    temp_query = str(ion_L) + r'<= mz <=' + str(ion_H)
-                    temp_query_info = tmpSpec_pd_TH.query(temp_query)
-                    #print ScanID,'',temp_query_info
-                    found_mz_list =temp_query_info.iloc[:]['mz'].tolist()
+                        temp_query = str(ion_L) + r'<= mz <=' + str(ion_H)
+                        temp_query_info = tmpSpec_pd_TH.query(temp_query)
+                        #print ScanID,'',temp_query_info
+                        found_mz_list =temp_query_info.iloc[:]['mz'].tolist()
                     
-                    
+                        if len(found_mz_list) >0:
+                            #temp_ion_pd = temp_ion_pd.append(temp_query_info)
+                            #tmp_ion_info = [ion,MASS,found_mz_list]
+                            tmp_ion_info = [ScanID,pepMZ,prCHG,prMASS,RT,\
+                                            ion,MASS,MASStype,ionCHG,found_mz_list]
+                            
+                            tmp_found_List.append(tmp_ion_info)
+                            totScore_dict[ion] = ionScore
+                            #print tmp_ion_info
+                        else:
+                            #print 'ion',ion,'not found!'
+                            pass
                 
-                    if len(found_mz_list) >0:
-                        #temp_ion_pd = temp_ion_pd.append(temp_query_info)
-                        tmp_ion_info = [ion,MASS,found_mz_list]
-                        tmp_found_List.append(tmp_ion_info)
-                        totScore = totScore + ionScore
-                        #print tmp_ion_info
-                    else:
-                        #print 'ion',ion,'not found!'
-                        pass
+            totScore = 0.0
+            for ionkey in totScore_dict.keys():
+                totScore = totScore + float(totScore_dict[ionkey])
                 
+            #print totScore
+            
             if ScoreTH1<= float(totScore) <=ScoreTH2:
                 mgf.write(reader_info, output= outmgf,header='') 
+                SaveCSV.writerows(tmp_found_List)
                 print '#',ScanID, '=GET Score==>',totScore 
             else:
                 #print 'No Frag/NL found',ScanID
@@ -168,7 +197,7 @@ def Hunter(inmgf,outmgf,cfgNAME=None,cfgSection=None,ionCSVname=None):
     edTIME = time.clock() - stTIME
     print edTIME
     
-    
+    log.close()
     winsound.Beep(500, 800)
     
-    return rTH
+    #return rTH

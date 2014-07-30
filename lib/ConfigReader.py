@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
+#Copyright 2014 Zhixu Ni, AG Bioanalytik,BBZ,University of Leipzig            #
+#The software is currently  under development and is not ready to be released.#
+#A suitable license will be choosen before the offical release of mgfHunter.  #
+#For more info please contact: zhixu.ni@uni-leipzig.de                        #
+
 from ConfigParser import ConfigParser
 
-#import csv
-#import numpy as np
-#import os
-#import string
-#import pymzml
 
 def getConfig (ConfigName,ParaSec): 
     # # Fetch parameters from the config file#
@@ -24,5 +25,3 @@ def getConfig (ConfigName,ParaSec):
     # # return config info in a tuple#
     return (prTH_MS2,prMS2_Low,prMS2_High,prScore1,prScore2)
     
-    
-    #print ('WL2',DBEwl0O[2])
