@@ -733,7 +733,7 @@ class Ui_mgfHunterGUI(object):
                 
         Hunter(inmgf,outmgf,cfgNAME=INcfgNAME,cfgSection = INcfgSection,ionCSVname = INionCSVname)
         
-        Finishedinfo = 'Finifhed ! time:' + str(time.clock() - StartTime)
+        Finishedinfo = 'Finished ! time:' + str(time.clock() - StartTime)
         
         self.Filter_run_txt.setText(Finishedinfo)
         print (Finishedinfo) 
@@ -761,7 +761,7 @@ class Ui_mgfHunterGUI(object):
                 
         SCANtoCSV(inmgf,outcsv)
         
-        Finishedinfo = 'Finifhed ! time:' + str(time.clock() - StartTime)
+        Finishedinfo = 'Finished ! time:' + str(time.clock() - StartTime)
         
         self.extractor_run_txt.setText(Finishedinfo)
         print (Finishedinfo) 

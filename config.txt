@@ -61,3 +61,10 @@ ms2tlhigh = 0.8
 score1 = 76
 score2 = 300
 
+[91]
+thms2 = 1
+ms2tllow = 0.8
+ms2tlhigh = 0.8
+score1 = 91
+score2 = 300
+
