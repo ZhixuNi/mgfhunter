@@ -1,0 +1,690 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>mgfHunterGUI</class>
+ <widget class="QMainWindow" name="mgfHunterGUI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>650</width>
+    <height>663</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>mgfHunter_alpha</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QTabWidget" name="TabFrame">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>631</width>
+      <height>561</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="Config_Tab">
+     <attribute name="title">
+      <string>Settings</string>
+     </attribute>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>130</y>
+        <width>593</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetFixedSize</enum>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="Threshold_LB">
+         <property name="text">
+          <string>Threshold(%): </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="Threshold_txt">
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>30</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="MS2Low_LB">
+         <property name="text">
+          <string>MS2 tolerance:  -</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="MS2Low_txt">
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>30</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="MS2High_LB">
+         <property name="text">
+          <string>Da  to +</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="MS2High_txt">
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>30</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="MS2unit_LB">
+         <property name="text">
+          <string>Da</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="Socre1_LB">
+         <property name="text">
+          <string>Score</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="Score1_txt">
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>30</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="Score2_LB">
+         <property name="text">
+          <string>to</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="Score2_txt">
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>30</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="ConName_PB">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Config File</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="ConName_txt">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>10</y>
+        <width>491</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="ConSave_PB">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>90</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Save</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="ConSaveAs_PB">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>90</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Save As..</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="Con_profile_List_txt">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>50</y>
+        <width>491</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="ConUse_PB_txt">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>90</y>
+        <width>241</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Con_profile_List_LB">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>81</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Saved Profile list</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="ConUse_PB">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Use Profile</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="ConDelete_PB">
+      <property name="geometry">
+       <rect>
+        <x>520</x>
+        <y>90</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="inSetFile_PB">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>220</y>
+        <width>141</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Open Frag/NL Settings .csv</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="inSetFile_txt">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>220</y>
+        <width>421</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ShowTypeList_LB">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>270</y>
+        <width>141</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Names to be searched:</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="ShowTypeList_txt">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>260</y>
+        <width>421</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ShowFullSettings__LB">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>300</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Detailed settings:</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="ShowFullSettings_txt">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>320</y>
+        <width>581</width>
+        <height>211</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="setintro_LB">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>200</y>
+        <width>271</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Specify fragment ion / neutral loss settings below:</string>
+      </property>
+     </widget>
+     <widget class="Line" name="line">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>180</y>
+        <width>581</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="mgfHunter_Tab">
+     <attribute name="title">
+      <string>mgf Hunter core</string>
+     </attribute>
+     <widget class="QWidget" name="formLayoutWidget_5">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>601</width>
+        <height>231</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout_5">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+       </property>
+       <item row="0" column="1">
+        <widget class="QLabel" name="Filter1_LB">
+         <property name="text">
+          <string>1. select the .mgf file</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="Filter_in_PB">
+         <property name="text">
+          <string>Open input.mgf</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QTextEdit" name="Filter_in_txt">
+         <property name="maximumSize">
+          <size>
+           <width>450</width>
+           <height>50</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="Filter2_LB">
+         <property name="text">
+          <string>2. Choose where to save the output.mgf</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="Filter_out_PB">
+         <property name="text">
+          <string>Save output as</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QTextEdit" name="Filter_out_txt">
+         <property name="maximumSize">
+          <size>
+           <width>450</width>
+           <height>50</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="Filter3_LB">
+         <property name="text">
+          <string>3. Click RUN to process.</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QPushButton" name="Filter_run_PB">
+         <property name="text">
+          <string>RUN--&gt;mgfHunter!</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QTextEdit" name="Filter_run_txt">
+         <property name="maximumSize">
+          <size>
+           <width>450</width>
+           <height>50</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="Line" name="line_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>290</y>
+        <width>601</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+     <widget class="QWidget" name="formLayoutWidget_6">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>350</y>
+        <width>601</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout_6">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+       </property>
+       <item row="0" column="1">
+        <widget class="QLabel" name="extractor1_LB">
+         <property name="text">
+          <string>1. select the .mgf file</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="extractor_in_PB">
+         <property name="text">
+          <string>Open input.mgf</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QTextEdit" name="extractor_in_txt">
+         <property name="maximumSize">
+          <size>
+           <width>450</width>
+           <height>30</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="extractor2_LB">
+         <property name="text">
+          <string>2. Choose where to save the output.mgf</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="extractor_out_PB">
+         <property name="text">
+          <string>Save .csv as</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QTextEdit" name="extractor_out_txt">
+         <property name="maximumSize">
+          <size>
+           <width>450</width>
+           <height>30</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="extractor3_LB">
+         <property name="text">
+          <string>3. Click RUN to process.</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QPushButton" name="extractor_run_PB">
+         <property name="text">
+          <string>RUN--&gt;scan info  list</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QTextEdit" name="extractor_run_txt">
+         <property name="maximumSize">
+          <size>
+           <width>450</width>
+           <height>30</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLabel" name="hunterBanner_LB">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>10</y>
+        <width>261</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;The main filter function&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="extractor0_LB">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>320</y>
+        <width>241</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Extract scan info from .mgf file to a .csv table</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="Calc_Tab">
+     <attribute name="title">
+      <string>Tools</string>
+     </attribute>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="exitRun">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>600</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Exit</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>610</y>
+      <width>161</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>(C) BBZ @ University of Leipzig</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Exit_PB">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>610</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Exit</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>650</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout_LPPbox_2"/>
+    <addaction name="actionBoxHelp"/>
+   </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionDefault_folders"/>
+   </widget>
+   <addaction name="menuSettings"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <action name="actionAbout_LPPbox">
+   <property name="text">
+    <string>About LPPbox</string>
+   </property>
+  </action>
+  <action name="actionAbout_LPPbox_2">
+   <property name="text">
+    <string>About LPPbox</string>
+   </property>
+  </action>
+  <action name="actionBoxHelp">
+   <property name="text">
+    <string>BoxHelp</string>
+   </property>
+  </action>
+  <action name="actionDefault_folders">
+   <property name="text">
+    <string>Default folders</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>Exit_PB</sender>
+   <signal>clicked()</signal>
+   <receiver>mgfHunterGUI</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>597</x>
+     <y>606</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>486</x>
+     <y>601</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

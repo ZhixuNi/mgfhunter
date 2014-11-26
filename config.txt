@@ -1,0 +1,70 @@
+[Default_Settings]
+thms2 = 1
+ms2tllow = 0.8
+ms2tlhigh = 0.8
+score1 = 37
+score2 = 300
+
+[TL0.5]
+thms2 = 1
+ms2tllow = 0.5
+ms2tlhigh = 0.5
+score1 = 37
+score2 = 300
+
+[score75]
+thms2 = 1
+ms2tllow = 0.8
+ms2tlhigh = 0.8
+score1 = 75
+score2 = 300
+
+[24]
+thms2 = 1
+ms2tllow = 0.8
+ms2tlhigh = 0.8
+score1 = 24
+score2 = 300
+
+[60]
+thms2 = 1
+ms2tllow = 0.8
+ms2tlhigh = 0.8
+score1 = 60
+score2 = 300
+
+[70]
+thms2 = 1
+ms2tllow = 0.8
+ms2tlhigh = 0.8
+score1 = 70
+score2 = 300
+
+[10p]
+thms2 = 10
+ms2tllow = 0.8
+ms2tlhigh = 0.8
+score1 = 37
+score2 = 300
+
+[50p]
+thms2 = 50
+ms2tllow = 0.8
+ms2tlhigh = 0.8
+score1 = 37
+score2 = 300
+
+[mark76]
+thms2 = 50
+ms2tllow = 0.8
+ms2tlhigh = 0.8
+score1 = 76
+score2 = 300
+
+[91]
+thms2 = 1
+ms2tllow = 0.8
+ms2tlhigh = 0.8
+score1 = 91
+score2 = 300
+
